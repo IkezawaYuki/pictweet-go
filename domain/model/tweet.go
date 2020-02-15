@@ -11,8 +11,6 @@ type Tweet struct {
 	CreatedAt time.Time  `json:"-"`
 	UpdateAt  time.Time  `json:"-"`
 	DeleteAt  *time.Time `sql:"index" json:"-"`
-
-	Comment []Comment
 }
 
 type Tweets []Tweet

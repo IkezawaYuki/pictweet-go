@@ -9,30 +9,26 @@ type userAdapter struct {
 	handler SQLHandler
 }
 
-func NewUserAdapter(h SQLHandler) repository.CommentRepository {
+func NewUserAdapter(h SQLHandler) repository.UserRepository {
 	return &userAdapter{handler: h}
 }
 
-func (u userAdapter) FindByID(int) (*model.Comment, error) {
+func (u userAdapter) FindByID(int) (*model.User, error) {
 	panic("implement me")
 }
 
-func (u userAdapter) FindByTweetID(int) (*model.Comments, error) {
+func (u userAdapter) FindAll() (*model.Users, error) {
 	panic("implement me")
 }
 
-func (u userAdapter) FindAll() (*model.Comments, error) {
+func (u userAdapter) Create(*model.User) error {
 	panic("implement me")
 }
 
-func (u userAdapter) Create(*model.Comment) error {
+func (u userAdapter) Update(*model.User) error {
 	panic("implement me")
 }
 
-func (u userAdapter) Update(*model.Comment) error {
-	panic("implement me")
-}
-
-func (u userAdapter) Delete(*model.Comment) error {
+func (u userAdapter) Delete(*model.User) error {
 	panic("implement me")
 }

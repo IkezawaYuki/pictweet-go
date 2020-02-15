@@ -10,8 +10,6 @@ type Comment struct {
 	CreatedAt time.Time  `json:"-"`
 	UpdateAt  time.Time  `json:"-"`
 	DeleteAt  *time.Time `sql:"index" json:"-"`
-
-	Tweet Tweet
 }
 
 type Comments []Comment
