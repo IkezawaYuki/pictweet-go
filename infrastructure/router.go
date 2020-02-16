@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
-func Init() {
+func StartApplication() {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -22,8 +22,9 @@ func Init() {
 		g.GET("/tweets", ctr.FetchTweets())
 	}
 
-	fg := g.Group("/favorite", middlewares.FirebaseGuard())
-	{
-
-	}
+	//fg := g.Group("/favorite", middlewares.FirebaseGuard())
+	//{
+	//
+	//}
+	e.Logger.Fatal(e.Start(":8080"))
 }

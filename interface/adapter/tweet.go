@@ -23,7 +23,7 @@ func (t *tweetAdapter) FindByID(id int) (*model.Tweet, error) {
 
 func (t *tweetAdapter) FindAll() (*model.Tweets, error) {
 	var tweets model.Tweets
-	if err := t.handler.Find(tweets); err != nil {
+	if err := t.handler.Find(&tweets); err != nil {
 		return nil, err
 	}
 	return &tweets, nil

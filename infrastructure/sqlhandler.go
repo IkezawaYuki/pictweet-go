@@ -21,7 +21,6 @@ func NewSqlHandler() adapter.SQLHandler {
 	}
 	sqlHandler := new(SqlHandler)
 	sqlHandler.Conn = conn
-	conn.Close()
 	return sqlHandler
 }
 
