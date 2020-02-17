@@ -8,6 +8,6 @@ type SQLHandler interface {
 	Create(value interface{}) error
 	Save(value interface{}) error
 	Delete(value interface{}) error
-	Where(query interface{}, args ...interface{}) error
+	Where(out interface{}, query interface{}, args ...interface{}) error
 	Close() error
 }

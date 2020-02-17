@@ -15,7 +15,6 @@ type SqlHandler struct {
 
 func NewSqlHandler() adapter.SQLHandler {
 	conn, err := Connect()
-
 	if err != nil {
 		panic(err.Error)
 	}
@@ -79,8 +78,8 @@ func (handler *SqlHandler) Delete(value interface{}) error {
 	return handler.Conn.Delete(value).Error
 }
 
-func (handler *SqlHandler) Where(query interface{}, args ...interface{}) error {
-	db := handler.Conn.Where(query, args...)
+func (handler *SqlHandler) Where(out interface{}, query interface{}, args ...interface{}) error {
+	db := handler.Conn.Where(query, args...).Find(out)
 	if db.RecordNotFound() {
 		return nil
 	}

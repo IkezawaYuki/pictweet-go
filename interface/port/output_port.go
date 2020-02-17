@@ -2,6 +2,10 @@ package port
 
 import "github.com/IkezawaYuki/pictweet-go/domain/model"
 
+type OutputPort interface {
+	Index()
+}
+
 type OutputData struct {
 	Tweets   *model.Tweets   `json:tweets,omitempty`
 	Tweet    *model.Tweet    `json:"tweet,omitempty"`

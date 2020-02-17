@@ -5,34 +5,55 @@ import (
 	"github.com/IkezawaYuki/pictweet-go/domain/repository"
 )
 
-type commentAdapter struct {
+type commentRepository struct {
 	handler SQLHandler
 }
 
 func NewCommentAdapter(h SQLHandler) repository.CommentRepository {
-	return &commentAdapter{handler: h}
+	return &commentRepository{handler: h}
 }
 
-func (c commentAdapter) FindByID(int) (*model.Comment, error) {
-	panic("implement me")
+func (c *commentRepository) FindByID(id int) (*model.Comment, error) {
+	var comment model.Comment
+	if err := c.handler.Find(&comment, id); err != nil {
+		return nil, err
+	}
+	return &comment, nil
 }
 
-func (c commentAdapter) FindByTweetID(int) (*model.Comments, error) {
-	panic("implement me")
+func (c *commentRepository) FindByTweetID(tweetID int) (*model.Comments, error) {
+	var comments model.Comments
+	if err := c.handler.Where(&comments, "tweet_id = ?", tweetID); err != nil {
+		return nil, err
+	}
+	return &comments, nil
 }
 
-func (c commentAdapter) FindAll() (*model.Comments, error) {
-	panic("implement me")
+func (c *commentRepository) FindAll() (*model.Comments, error) {
+	var comments model.Comments
+	if err := c.handler.Find(comments); err != nil {
+		return nil, err
+	}
+	return &comments, nil
 }
 
-func (c commentAdapter) Create(*model.Comment) error {
-	panic("implement me")
+func (c *commentRepository) Create(comment *model.Comment) error {
+	if err := c.handler.Create(&comment); err != nil {
+		return err
+	}
+	return nil
 }
 
-func (c commentAdapter) Update(*model.Comment) error {
-	panic("implement me")
+func (c *commentRepository) Update(comment *model.Comment) error {
+	if err := c.handler.Save(&comment); err != nil {
+		return err
+	}
+	return nil
 }
 
-func (c commentAdapter) Delete(*model.Comment) error {
-	panic("implement me")
+func (c *commentRepository) Delete(comment *model.Comment) error {
+	if err := c.handler.Delete(&comment); err != nil {
+		return err
+	}
+	return nil
 }
