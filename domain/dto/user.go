@@ -1,8 +1,8 @@
-package model
+package dto
 
 import "time"
 
-type User struct {
+type UserDto struct {
 	ID        uint       `gorm:"primary_key" json:"id"`
 	UID       string     `json:"uid"`
 	Name      string     `json:"name"`
@@ -13,4 +13,8 @@ type User struct {
 	DeleteAt  *time.Time `sql:"index" json:"-"`
 }
 
-type Users []User
+type UsersDto []UserDto
+
+func (UserDto) TableName() string {
+	return "users"
+}

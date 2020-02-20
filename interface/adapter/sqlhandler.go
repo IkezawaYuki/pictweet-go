@@ -10,4 +10,5 @@ type SQLHandler interface {
 	Delete(value interface{}) error
 	Where(out interface{}, query interface{}, args ...interface{}) error
 	Close() error
+	In(out interface{}, query interface{}, args ...interface{}) error
 }

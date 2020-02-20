@@ -1,16 +1,18 @@
 package port
 
-import "github.com/IkezawaYuki/pictweet-go/domain/model"
+import (
+	"time"
+)
 
 type OutputPort interface {
 	Index()
 }
 
-type OutputData struct {
-	Tweets   *model.Tweets   `json:tweets,omitempty`
-	Tweet    *model.Tweet    `json:"tweet,omitempty"`
-	Comments *model.Comments `json:"comments,omitempty"`
-	Comment  *model.Comment  `json:"comment,omitempty"`
-	Users    *model.Users    `json:"users,omitempty"`
-	User     *model.User     `json:"user,omitempty"`
+type TweetsDto struct {
+	ID       uint      `gorm:"primary_key" json:"id"`
+	Author   string    `json:"author"`
+	Image    string    `json:"image"`
+	Title    string    `json:"title"`
+	Text     string    `json:"text"`
+	UpdateAt time.Time `json:"update_at"`
 }

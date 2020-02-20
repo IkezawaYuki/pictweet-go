@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/IkezawaYuki/pictweet-go/domain/model"
+	"github.com/IkezawaYuki/pictweet-go/domain/entity"
 	"github.com/IkezawaYuki/pictweet-go/domain/repository"
 	"github.com/IkezawaYuki/pictweet-go/interface/port"
 )
@@ -22,10 +22,20 @@ func NewPictweetInteractor(tRepo repository.TweetRepository,
 	}
 }
 
-func (i *pictweetInteractor) Index() (*model.Tweets, error) {
+func (i *pictweetInteractor) Index() (*entity.Tweets, error) {
 	tweets, err := i.TweetRepo.FindAll()
 	if err != nil {
 		return nil, err
 	}
-	return tweets, nil
+
+	var ids []uint
+	for _, tweet := range *tweets {
+		ids = append(ids, tweet.ID)
+	}
+	users, err := i.UserRepo.FindInUserID(ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return entity.NewTweetFactoryByDtos(tweets, users), nil
 }

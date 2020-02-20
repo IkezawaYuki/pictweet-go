@@ -1,7 +1,9 @@
 package port
 
-import "github.com/IkezawaYuki/pictweet-go/domain/model"
+import (
+	"github.com/IkezawaYuki/pictweet-go/domain/entity"
+)
 
 type InputPort interface {
-	Index() (*model.Tweets, error)
+	Index() (*entity.Tweets, error)
 }

@@ -1,8 +1,8 @@
-package model
+package dto
 
 import "time"
 
-type Tweet struct {
+type TweetDto struct {
 	ID        uint       `gorm:"primary_key" json:"id"`
 	UserID    uint       `json:"user_id"`
 	Image     string     `json:"image"`
@@ -13,4 +13,8 @@ type Tweet struct {
 	DeleteAt  *time.Time `sql:"index" json:"-"`
 }
 
-type Tweets []Tweet
+type TweetsDto []TweetDto
+
+func (TweetDto) TableName() string {
+	return "tweets"
+}

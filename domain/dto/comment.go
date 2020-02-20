@@ -1,8 +1,8 @@
-package model
+package dto
 
 import "time"
 
-type Comment struct {
+type CommentDto struct {
 	ID        uint       `gorm:"primary_key" json:"id"`
 	UserID    uint       `json:"user_id"`
 	TweetID   uint       `json:"tweet_id"`
@@ -12,4 +12,8 @@ type Comment struct {
 	DeleteAt  *time.Time `sql:"index" json:"-"`
 }
 
-type Comments []Comment
+type CommentsDto []CommentDto
+
+func (CommentDto) TableName() string {
+	return "comments"
+}

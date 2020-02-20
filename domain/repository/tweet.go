@@ -1,11 +1,11 @@
 package repository
 
-import "github.com/IkezawaYuki/pictweet-go/domain/model"
+import "github.com/IkezawaYuki/pictweet-go/domain/dto"
 
 type TweetRepository interface {
-	FindByID(int) (*model.Tweet, error)
-	FindAll() (*model.Tweets, error)
-	Create(*model.Tweet) error
-	Update(*model.Tweet) error
-	Delete(*model.Tweet) error
+	FindByID(uint) (*dto.TweetDto, error)
+	FindAll() (*dto.TweetsDto, error)
+	Create(*dto.TweetDto) error
+	Update(*dto.TweetDto) error
+	Delete(*dto.TweetDto) error
 }

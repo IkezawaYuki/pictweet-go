@@ -89,3 +89,11 @@ func (handler *SqlHandler) Where(out interface{}, query interface{}, args ...int
 func (handler *SqlHandler) Close() error {
 	return handler.Conn.Close()
 }
+
+func (handler *SqlHandler) In(out interface{}, query interface{}, args ...interface{}) error {
+	db := handler.Conn.Where(query, args...).Find(out)
+	if db.RecordNotFound() {
+		return nil
+	}
+	return db.Error
+}

@@ -1,11 +1,12 @@
 package repository
 
-import "github.com/IkezawaYuki/pictweet-go/domain/model"
+import "github.com/IkezawaYuki/pictweet-go/domain/dto"
 
 type UserRepository interface {
-	FindByID(int) (*model.User, error)
-	FindAll() (*model.Users, error)
-	Create(*model.User) error
-	Update(*model.User) error
-	Delete(*model.User) error
+	FindByID(uint) (*dto.UserDto, error)
+	FindAll() (*dto.UsersDto, error)
+	Create(*dto.UserDto) error
+	Update(*dto.UserDto) error
+	Delete(*dto.UserDto) error
+	FindInUserID([]uint) (*dto.UsersDto, error)
 }

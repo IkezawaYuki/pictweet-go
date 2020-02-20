@@ -27,8 +27,6 @@ func (p *pictweetController) FetchTweets() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
-		var dto port.OutputData
-		dto.Tweets = tweets
-		return c.JSON(http.StatusOK, dto)
+		return c.JSON(http.StatusOK, tweets)
 	}
 }
