@@ -9,7 +9,7 @@ type UserDto struct {
 	Email     string     `json:"email"`
 	Avatar    string     `json:"avatar"`
 	CreatedAt time.Time  `json:"-"`
-	UpdateAt  time.Time  `json:"update_at"`
+	UpdateAt  time.Time  `json:"updated_at"`
 	DeleteAt  *time.Time `sql:"index" json:"-"`
 }
 

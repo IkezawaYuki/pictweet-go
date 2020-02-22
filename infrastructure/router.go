@@ -20,6 +20,9 @@ func StartApplication() {
 	g := e.Group("/api")
 	{
 		g.GET("/tweets", ctr.FetchTweets())
+		g.POST("/tweet/", ctr.PostTweet())
+		g.GET("/tweet/:id", ctr.ShowTweet())
+		g.POST("/comment/:tweetId", ctr.AddComment())
 	}
 
 	//fg := g.Group("/favorite", middlewares.FirebaseGuard())
