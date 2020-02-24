@@ -37,10 +37,10 @@ func (p *pictweetController) FetchTweets() echo.HandlerFunc {
 
 func (p *pictweetController) PostTweet() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		text := c.FormValue("text")
-		userID := c.FormValue("user_id")
-		image := c.FormValue("image")
 		title := c.FormValue("title")
+		image := c.FormValue("url")
+		text := c.FormValue("comment")
+		userID := "1" // todo
 
 		tweet, err := dto.NewTweetDto(userID, image, title, text)
 		if err != nil {
@@ -50,7 +50,8 @@ func (p *pictweetController) PostTweet() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
 
-		return c.JSON(http.StatusCreated, "OK!")
+		//return c.JSON(http.StatusCreated, "OK!")
+		return c.JSON(http.StatusCreated, fmt.Errorf("error"))
 	}
 }
 
