@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/domain/dto"
 	"github.com/IkezawaYuki/pictweet-go/domain/entity"
 	"github.com/IkezawaYuki/pictweet-go/domain/repository"
@@ -74,7 +75,9 @@ func (i *pictweetInteractor) ShowTweet(id uint) (*entity.TweetDetail, error) {
 	for _, comment := range *commentsDto {
 		ids = append(ids, comment.ID)
 	}
-
+	fmt.Println("===")
+	fmt.Println(ids)
+	fmt.Println("===")
 	usersDto, err := i.UserRepo.FindInUserID(ids)
 	if err != nil {
 		return nil, err

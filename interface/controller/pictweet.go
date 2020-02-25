@@ -75,7 +75,7 @@ func (p *pictweetController) AddComment() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		tweetID := c.Param("tweetId")
 		userID := c.FormValue("user_id")
-		text := c.FormValue("text")
+		text := c.FormValue("comment")
 
 		commentDto, err := dto.NewCommentDto(tweetID, userID, text)
 		if err != nil {
