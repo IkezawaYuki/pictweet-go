@@ -73,17 +73,15 @@ func (i *pictweetInteractor) ShowTweet(id uint) (*entity.TweetDetail, error) {
 
 	var ids []uint
 	for _, comment := range *commentsDto {
-		ids = append(ids, comment.ID)
+		ids = append(ids, comment.UserID)
 	}
-	fmt.Println("===")
-	fmt.Println(ids)
-	fmt.Println("===")
 	usersDto, err := i.UserRepo.FindInUserID(ids)
 	if err != nil {
 		return nil, err
 	}
 
 	comments := i.CommentService.NewCommentByDtos(commentsDto, usersDto)
+	fmt.Println(comments)
 	tweet := &entity.TweetDetail{
 		ID:       tweetDto.ID,
 		UserID:   userID,
