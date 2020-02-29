@@ -1,4 +1,4 @@
-package middleware
+package middlewares
 
 import (
 	"context"
@@ -15,7 +15,7 @@ func verifyFirebaseIDToken(ctx echo.Context, auth *auth.Client) (*auth.Token, er
 }
 
 func FirebaseGuard() echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(handler echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			authClient := c.Get("firebase").(*auth.Client)
 			jwtToken, err := verifyFirebaseIDToken(c, authClient)
@@ -23,7 +23,22 @@ func FirebaseGuard() echo.MiddlewareFunc {
 				return c.JSON(fasthttp.StatusUnauthorized, "Not Authenticated")
 			}
 			c.Set("auth", jwtToken)
-			if err := next(c); err != nil {
+			if err := handler(c); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+}
+
+func FirebaseAuth() echo.MiddlewareFunc {
+	return func(handler echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			authClient := c.Get("firebase").(*auth.Client)
+			jwtToken, _ := verifyFirebaseIDToken(c, authClient)
+			c.Set("auth", jwtToken)
+
+			if err := handler(c); err != nil {
 				return err
 			}
 			return nil
