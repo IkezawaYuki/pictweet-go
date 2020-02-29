@@ -28,18 +28,18 @@ func (t *tweetRepository) FindAll() (*dto.TweetsDto, error) {
 	}
 	return &tweets, nil
 }
-func (t *tweetRepository) Create(tweet *dto.TweetDto) error {
+func (t *tweetRepository) Create(tweet *dto.TweetDto) (uint, error) {
 	if err := t.handler.Create(tweet); err != nil {
-		return err
+		return -1, err
 	}
-	return nil
+	return tweet.ID, nil
 }
 
-func (t *tweetRepository) Update(tweet *dto.TweetDto) error {
+func (t *tweetRepository) Update(tweet *dto.TweetDto) (uint, error) {
 	if err := t.handler.Save(tweet); err != nil {
-		return err
+		return -1, err
 	}
-	return nil
+	return tweet.ID, nil
 }
 func (t *tweetRepository) Delete(tweet *dto.TweetDto) error {
 	if err := t.handler.Delete(tweet); err != nil {

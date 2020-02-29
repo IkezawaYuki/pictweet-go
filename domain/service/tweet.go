@@ -29,3 +29,15 @@ func (s *TweetService) NewTweetByDtos(tweetDtos *dto.TweetsDto, userDtos *dto.Us
 	}
 	return &tweets
 }
+
+func (s *TweetService) NewTweetByDto(tweetDto *dto.TweetDto, userDto *dto.UserDto) *entity.Tweet {
+	return &entity.Tweet{
+		ID:       tweetDto.ID,
+		Author:   userDto.Name,
+		Avatar:   userDto.Avatar,
+		Image:    tweetDto.Image,
+		Title:    tweetDto.Title,
+		Text:     tweetDto.Text,
+		PostDate: tweetDto.CreatedAt.Format("2006/01/02 03:04"),
+	}
+}

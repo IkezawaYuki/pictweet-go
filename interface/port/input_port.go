@@ -7,7 +7,8 @@ import (
 
 type InputPort interface {
 	Index() (*entity.Tweets, error)
-	CreateTweet(*dto.TweetDto) error
+	FindByID(id uint) (*entity.Tweet, error)
+	CreateTweet(*dto.TweetDto) (uint, error)
 	ShowTweet(uint) (*entity.TweetDetail, error)
 	AddComment(*dto.CommentDto) error
 }

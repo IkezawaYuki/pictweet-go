@@ -29,6 +29,7 @@ func NewPictweetInteractor(tRepo repository.TweetRepository,
 
 // Index ツイート一覧表示ロジック
 func (i *pictweetInteractor) Index() (*entity.Tweets, error) {
+	fmt.Println("index")
 	tweetsDto, err := i.TweetRepo.FindAll()
 	if err != nil {
 		return nil, err
@@ -46,12 +47,27 @@ func (i *pictweetInteractor) Index() (*entity.Tweets, error) {
 	return i.TweetService.NewTweetByDtos(tweetsDto, usersDto), nil
 }
 
-// CreateTweet ツイート新規投稿ロジック
-func (i *pictweetInteractor) CreateTweet(dto *dto.TweetDto) error {
-	if err := i.TweetRepo.Create(dto); err != nil {
-		return err
+func (i *pictweetInteractor) FindByID(id uint) (*entity.Tweet, error) {
+	tweetDto, err := i.TweetRepo.FindByID(id)
+	if err != nil {
+		return nil, err
 	}
-	return nil
+
+	userDto, err := i.UserRepo.FindByID(tweetDto.UserID)
+	if err != nil {
+		return nil, err
+	}
+
+	return i.TweetService.NewTweetByDto(tweetDto, userDto), nil
+}
+
+// CreateTweet ツイート新規投稿ロジック
+func (i *pictweetInteractor) CreateTweet(dto *dto.TweetDto) (uint, error) {
+	id, err := i.TweetRepo.Create(dto)
+	if err != nil {
+		return id, err
+	}
+	return id, nil
 }
 
 func (i *pictweetInteractor) ShowTweet(id uint) (*entity.TweetDetail, error) {

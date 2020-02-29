@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/domain/dto"
 	"github.com/IkezawaYuki/pictweet-go/interface/adapter"
 	"github.com/IkezawaYuki/pictweet-go/interface/port"
@@ -30,7 +29,6 @@ func (p *pictweetController) FetchTweets() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
-		fmt.Println(tweets)
 		return c.JSON(http.StatusOK, tweets)
 	}
 }
@@ -46,12 +44,17 @@ func (p *pictweetController) PostTweet() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
 		}
-		if err := p.Interactor.CreateTweet(tweet); err != nil {
+		insertId, err := p.Interactor.CreateTweet(tweet)
+		if err != nil {
 			return c.JSON(http.StatusInternalServerError, err)
 		}
 
-		//return c.JSON(http.StatusCreated, "OK!")
-		return c.JSON(http.StatusCreated, fmt.Errorf("error"))
+		insertTweet, err := p.Interactor.FindByID(insertId)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, err)
+		}
+
+		return c.JSON(http.StatusCreated, insertTweet)
 	}
 }
 
