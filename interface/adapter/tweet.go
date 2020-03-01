@@ -30,14 +30,14 @@ func (t *tweetRepository) FindAll() (*dto.TweetsDto, error) {
 }
 func (t *tweetRepository) Create(tweet *dto.TweetDto) (uint, error) {
 	if err := t.handler.Create(tweet); err != nil {
-		return -1, err
+		return 0, err
 	}
 	return tweet.ID, nil
 }
 
 func (t *tweetRepository) Update(tweet *dto.TweetDto) (uint, error) {
 	if err := t.handler.Save(tweet); err != nil {
-		return -1, err
+		return 0, err
 	}
 	return tweet.ID, nil
 }
