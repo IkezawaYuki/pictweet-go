@@ -22,6 +22,7 @@ func StartApplication() {
 		g.GET("/tweet/:id", ctr.ShowTweet())
 		g.POST("/tweet/", ctr.PostTweet())
 		g.POST("/comment/:tweetId", ctr.AddComment())
+		g.POST("/user/", ctr.CreateUser())
 	}
 
 	//fg := g.Group("/post", middlewares.FirebaseGuard())

@@ -15,15 +15,18 @@ type pictweetInteractor struct {
 	UserRepo       repository.UserRepository
 	TweetService   service.TweetService
 	CommentService service.CommentService
+	UserService    service.UserService
 }
 
 func NewPictweetInteractor(tRepo repository.TweetRepository,
 	cRepo repository.CommentRepository,
-	uRepo repository.UserRepository) port.InputPort {
+	uRepo repository.UserRepository,
+	uService service.UserService) port.InputPort {
 	return &pictweetInteractor{
 		TweetRepo:   tRepo,
 		CommentRepo: cRepo,
 		UserRepo:    uRepo,
+		UserService: uService,
 	}
 }
 
@@ -114,6 +117,16 @@ func (i *pictweetInteractor) ShowTweet(id uint) (*entity.TweetDetail, error) {
 
 func (i *pictweetInteractor) AddComment(commentDto *dto.CommentDto) error {
 	if err := i.CommentRepo.Create(commentDto); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (i *pictweetInteractor) CreateUser(userDto *dto.UserDto) error {
+	if !i.UserService.Exist(userDto.Email) {
+		return fmt.Errorf("user is exist. email: %s", userDto.Email)
+	}
+	if err := i.UserRepo.Create(userDto); err != nil {
 		return err
 	}
 	return nil

@@ -21,6 +21,14 @@ func (u *userRepository) FindByID(id uint) (*dto.UserDto, error) {
 	return &user, nil
 }
 
+func (u *userRepository) FindByEmail(email string) (*dto.UserDto, error) {
+	var user dto.UserDto
+	if err := u.handler.Where(&user, "email = ?", email); err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 func (u *userRepository) FindAll() (*dto.UsersDto, error) {
 	var users dto.UsersDto
 	if err := u.handler.Find(&users); err != nil {

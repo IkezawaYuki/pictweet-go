@@ -11,4 +11,5 @@ type InputPort interface {
 	CreateTweet(*dto.TweetDto) (uint, error)
 	ShowTweet(uint) (*entity.TweetDetail, error)
 	AddComment(*dto.CommentDto) error
+	CreateUser(*dto.UserDto) error
 }

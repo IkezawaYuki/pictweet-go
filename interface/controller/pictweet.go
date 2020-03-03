@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/IkezawaYuki/pictweet-go/domain/dto"
+	"github.com/IkezawaYuki/pictweet-go/domain/service"
 	"github.com/IkezawaYuki/pictweet-go/interface/adapter"
 	"github.com/IkezawaYuki/pictweet-go/interface/port"
 	"github.com/IkezawaYuki/pictweet-go/usecase"
@@ -15,11 +16,13 @@ type pictweetController struct {
 }
 
 func NewPictweetController(h adapter.SQLHandler) *pictweetController {
+	userRepo := adapter.NewUserAdapter(h)
 	return &pictweetController{
 		Interactor: usecase.NewPictweetInteractor(
 			adapter.NewTweetRepository(h),
 			adapter.NewCommentAdapter(h),
-			adapter.NewUserAdapter(h),
+			userRepo,
+			*service.NewUserService(userRepo),
 		)}
 }
 
@@ -89,5 +92,22 @@ func (p *pictweetController) AddComment() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusCreated, commentDto)
+	}
+}
+
+func (p *pictweetController) CreateUser() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		name := c.FormValue("name")
+		email := c.FormValue("email")
+		avatar := c.FormValue("avatar")
+		userDto := dto.UserDto{
+			Name:   name,
+			Email:  email,
+			Avatar: avatar,
+		}
+		if err := p.Interactor.CreateUser(&userDto); err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		return c.JSON(http.StatusCreated, userDto)
 	}
 }
