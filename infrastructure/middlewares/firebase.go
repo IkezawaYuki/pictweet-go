@@ -3,6 +3,7 @@ package middlewares
 import (
 	"context"
 	firebase "firebase.google.com/go"
+	"fmt"
 	"github.com/labstack/echo"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/api/option"
@@ -16,6 +17,7 @@ func Firebase() echo.MiddlewareFunc {
 			config := &firebase.Config{
 				ProjectID: os.Getenv("PROJECT_ID"),
 			}
+			fmt.Println(opt)
 			app, err := firebase.NewApp(context.Background(), config, opt)
 			if err != nil {
 				logrus.Fatalf("Error initializing firebase: %v\n", err)
@@ -23,7 +25,7 @@ func Firebase() echo.MiddlewareFunc {
 
 			auth, err := app.Auth(context.Background())
 			c.Set("firebase", auth)
-			if err != nil {
+			if err := next(c); err != nil {
 				return err
 			}
 			return nil
