@@ -15,4 +15,5 @@ func main() {
 	db.Debug().AutoMigrate(&dto.UserDto{})
 	db.Debug().AutoMigrate(&dto.TweetDto{})
 	db.Debug().AutoMigrate(&dto.CommentDto{})
+	db.Debug().AutoMigrate(&dto.FavoriteDto{})
 }

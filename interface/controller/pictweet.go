@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/domain/dto"
 	"github.com/IkezawaYuki/pictweet-go/domain/service"
 	"github.com/IkezawaYuki/pictweet-go/interface/adapter"
@@ -22,6 +23,7 @@ func NewPictweetController(h adapter.SQLHandler) *pictweetController {
 			adapter.NewTweetRepository(h),
 			adapter.NewCommentAdapter(h),
 			userRepo,
+			adapter.NewFavoriteRepository(h),
 			*service.NewUserService(userRepo),
 		)}
 }
@@ -36,12 +38,35 @@ func (p *pictweetController) FetchTweets() echo.HandlerFunc {
 	}
 }
 
+func (p *pictweetController) FetchFavorites() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		email := c.FormValue("email")
+		tweetID := c.FormValue("tweet_id")
+		tweetId, err := strconv.ParseUint(tweetID, 10, 64)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		isFavorite, err := p.Interactor.ToggleFavorite(email, uint(tweetId))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, err)
+		}
+
+		res := dto.ToggleFavoriteVideoResponse{
+			TweetID:    tweetID,
+			IsFavorite: isFavorite,
+		}
+		return c.JSON(http.StatusOK, res)
+	}
+}
+
 func (p *pictweetController) PostTweet() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		title := c.FormValue("title")
 		image := c.FormValue("url")
 		text := c.FormValue("comment")
-		userID := "1" // todo
+		email := c.FormValue("email")
+		fmt.Println(email)
+		userID := 1
 
 		tweet, err := dto.NewTweetDto(userID, image, title, text)
 		if err != nil {

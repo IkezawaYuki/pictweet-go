@@ -13,6 +13,7 @@ type pictweetInteractor struct {
 	TweetRepo      repository.TweetRepository
 	CommentRepo    repository.CommentRepository
 	UserRepo       repository.UserRepository
+	FavoriteRepo   repository.FavoriteRepository
 	TweetService   service.TweetService
 	CommentService service.CommentService
 	UserService    service.UserService
@@ -21,18 +22,19 @@ type pictweetInteractor struct {
 func NewPictweetInteractor(tRepo repository.TweetRepository,
 	cRepo repository.CommentRepository,
 	uRepo repository.UserRepository,
+	fRepo repository.FavoriteRepository,
 	uService service.UserService) port.InputPort {
 	return &pictweetInteractor{
-		TweetRepo:   tRepo,
-		CommentRepo: cRepo,
-		UserRepo:    uRepo,
-		UserService: uService,
+		TweetRepo:    tRepo,
+		CommentRepo:  cRepo,
+		UserRepo:     uRepo,
+		FavoriteRepo: fRepo,
+		UserService:  uService,
 	}
 }
 
 // Index ツイート一覧表示ロジック
 func (i *pictweetInteractor) Index() (*entity.Tweets, error) {
-	fmt.Println("index")
 	tweetsDto, err := i.TweetRepo.FindAll()
 	if err != nil {
 		return nil, err
@@ -130,4 +132,15 @@ func (i *pictweetInteractor) CreateUser(userDto *dto.UserDto) error {
 		return err
 	}
 	return nil
+}
+
+func (i *pictweetInteractor) ToggleFavorite(email string, tweetID uint) (bool, error) {
+	user, err := i.UserRepo.FindByEmail(email)
+	if err != nil {
+		return false, err
+	}
+	if &user == nil {
+		return false, fmt.Errorf("user is not found")
+	}
+	return i.FavoriteRepo.Toggle(user.ID, tweetID)
 }

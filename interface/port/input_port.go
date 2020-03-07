@@ -12,4 +12,5 @@ type InputPort interface {
 	ShowTweet(uint) (*entity.TweetDetail, error)
 	AddComment(*dto.CommentDto) error
 	CreateUser(*dto.UserDto) error
+	ToggleFavorite(string, uint) (bool, error)
 }

@@ -21,6 +21,7 @@ func StartApplication() {
 	{
 		g.GET("/tweets", ctr.FetchTweets())
 		g.GET("/tweet/:id", ctr.ShowTweet())
+		g.GET("/favorite", ctr.FetchFavorites())
 		g.POST("/tweet/", ctr.PostTweet())
 		g.POST("/comment/:tweetId", ctr.AddComment())
 		g.POST("/user/", ctr.CreateUser())
@@ -28,6 +29,7 @@ func StartApplication() {
 
 	//fg := g.Group("/post", middlewares.FirebaseGuard())
 	//{
+	//  g.GET("/favorite/:id")s
 	//	fg.POST("/tweet/", ctr.PostTweet())
 	//	fg.POST("/comment/:tweetId", ctr.AddComment())
 	//}
