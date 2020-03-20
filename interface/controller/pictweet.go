@@ -66,7 +66,7 @@ func (p *pictweetController) PostTweet() echo.HandlerFunc {
 		text := c.FormValue("comment")
 		email := c.FormValue("email")
 		fmt.Println(email)
-		userID := 1
+		userID := "1"
 
 		tweet, err := dto.NewTweetDto(userID, image, title, text)
 		if err != nil {
