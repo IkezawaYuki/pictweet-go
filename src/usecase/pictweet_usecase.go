@@ -14,6 +14,8 @@ type PictweetUsecase interface {
 	PostComment(*model.Comment) (int, error)
 	ListTweets() (*model.Tweets, error)
 	ShowTweet(uint) (*model.Tweet, error)
+	DeleteTweet(uint) error
+	RegisterUser(*model.User) (int, error)
 }
 
 func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
@@ -23,7 +25,7 @@ func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
 }
 
 func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (int, error) {
-	id, err := p.tweetRepository.AddTweet(tweet)
+	id, err := p.tweetRepository.CreateTweet(tweet)
 	if err != nil {
 		return -1, err
 	}
@@ -31,7 +33,7 @@ func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (int, error) {
 }
 
 func (p *pictweetUsecase) PostComment(comment *model.Comment) (int, error) {
-	id, err := p.tweetRepository.AddComment(comment)
+	id, err := p.tweetRepository.CreateComment(comment)
 	if err != nil {
 		return -1, err
 	}
@@ -52,4 +54,19 @@ func (p *pictweetUsecase) ShowTweet(id uint) (*model.Tweet, error) {
 		return nil, err
 	}
 	return tweet, nil
+}
+
+func (p *pictweetUsecase) DeleteTweet(id uint) error {
+	if err := p.tweetRepository.DeleteTweet(id); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *pictweetUsecase) RegisterUser(user *model.User) (int, error) {
+	id, err := p.tweetRepository.CreateUser(user)
+	if err != nil {
+		return -1, err
+	}
+	return id, nil
 }

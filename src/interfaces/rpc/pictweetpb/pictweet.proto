@@ -59,9 +59,29 @@ message PostCommentResponse{
     string result = 1;
 }
 
+message DeleteTweetRequest{
+    int32 tweet_id = 1;
+}
+
+message DeleteTweetResponse{
+    string result = 1;
+}
+
+message RegisterUserRequest{
+    string name = 1;
+    string email = 2;
+    string avatar = 3;
+}
+
+message RegsiterUserResponse{
+    string result = 1;
+}
+
 service PictweetService{
     rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){};
     rpc PostTweet(PostTweetRequest)returns(PostTweetResponse){};
     rpc ShowTweet(ShowTweetRequest)returns(ShowTweetResponse){};
     rpc PostComment(PostCommentRequest)returns(PostCommentResponse){};
+    rpc DeleteTweet(DeleteTweetRequest)returns(DeleteTweetResponse){};
+    rpc RegisterUser(RegisterUserRequest)returns(RegsiterUserResponse){};
 }

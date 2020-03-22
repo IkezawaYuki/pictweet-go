@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/IkezawaYuki/pictweet-go/src/interfaces/presenter"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc/pictweetpb"
 	"github.com/IkezawaYuki/pictweet-go/src/registry"
@@ -37,7 +36,7 @@ func main() {
 
 	pictweetpb.RegisterPictweetServiceServer(
 		s,
-		rpc.NewPictweetService(ctn.Resolve("tweet-usecase").(usecase.PictweetUsecase), presenter.PictweetPresenter{}),
+		rpc.NewPictweetService(ctn.Resolve("tweet-usecase").(usecase.PictweetUsecase)),
 	)
 
 	reflection.Register(s)

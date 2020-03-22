@@ -75,18 +75,36 @@ func (s *SqlHandler) FindUserByID(id uint) (*model.User, error) {
 	return &result, db.Error
 }
 
-func (s *SqlHandler) AddTweet(tweet *model.Tweet) (int, error) {
+func (s *SqlHandler) CreateTweet(tweet *model.Tweet) (int, error) {
 	db := s.conn.Create(&tweet)
 	if db.Error != nil {
 		return -1, db.Error
 	}
-	return int(db.RowsAffected), nil
+	return int(tweet.ID), nil
 }
 
-func (s *SqlHandler) AddComment(comment *model.Comment) (int, error) {
+func (s *SqlHandler) CreateComment(comment *model.Comment) (int, error) {
 	db := s.conn.Create(&comment)
 	if db.Error != nil {
 		return -1, db.Error
 	}
-	return int(db.RowsAffected), nil
+	return int(comment.ID), nil
+}
+
+func (s *SqlHandler) DeleteTweet(id uint) error {
+	if err := s.conn.Where("id = ?", id).Delete(&model.Tweet{}).Error; err != nil {
+		return err
+	}
+	if err := s.conn.Where("tweet_id = ?", id).Delete(&model.Comment{}).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SqlHandler) CreateUser(user *model.User) (int, error) {
+	db := s.conn.Create(&user)
+	if db.Error != nil {
+		return -1, db.Error
+	}
+	return int(user.ID), nil
 }

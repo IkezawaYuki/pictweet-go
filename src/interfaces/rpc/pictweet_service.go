@@ -17,10 +17,10 @@ type pictweetService struct {
 	pictweetPresenter presenter.PictweetPresenter
 }
 
-func NewPictweetService(u usecase.PictweetUsecase, p presenter.PictweetPresenter) pictweetpb.PictweetServiceServer {
+func NewPictweetService(u usecase.PictweetUsecase) pictweetpb.PictweetServiceServer {
 	return &pictweetService{
 		pictweetUsecase:   u,
-		pictweetPresenter: p,
+		pictweetPresenter: presenter.PictweetPresenter{},
 	}
 }
 
@@ -80,5 +80,36 @@ func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostC
 	}
 	return &pictweetpb.PostCommentResponse{
 		Result: fmt.Sprintf("success comment_id: %d", id),
+	}, nil
+}
+
+func (p *pictweetService) DeleteTweet(ctx context.Context, req *pictweetpb.DeleteTweetRequest) (*pictweetpb.DeleteTweetResponse, error) {
+	err := p.pictweetUsecase.DeleteTweet(uint(req.GetTweetId()))
+	if err != nil {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("invalide argument: %v", err),
+		)
+	}
+	return &pictweetpb.DeleteTweetResponse{
+		Result: fmt.Sprintf("success delete tweet_id: %d", req.GetTweetId()),
+	}, nil
+}
+
+func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.RegisterUserRequest) (*pictweetpb.RegsiterUserResponse, error) {
+	id, err := p.pictweetUsecase.RegisterUser(&model.User{
+		Name:      req.GetName(),
+		Email:     req.GetEmail(),
+		Avatar:    req.GetAvatar(),
+		CreatedAt: time.Now(),
+	})
+	if err != nil {
+		return nil, status.Errorf(
+			codes.InvalidArgument,
+			fmt.Sprintf("invalide argument: %v", err),
+		)
+	}
+	return &pictweetpb.RegsiterUserResponse{
+		Result: fmt.Sprintf("success user_id: %d", id),
 	}, nil
 }
