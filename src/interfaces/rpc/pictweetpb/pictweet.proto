@@ -26,7 +26,7 @@ message ListTweetsRequest{
 }
 
 message ListTweetsResponse{
-    Tweet tweet = 1;
+    repeated Tweet tweet = 1;
 }
 
 message PostTweetRequest{
@@ -61,7 +61,7 @@ message PostCommentResponse{
 
 service PictweetService{
     rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){};
-    rpc CreateTweet(PostTweetRequest)returns(PostTweetResponse){};
-    rpc PostTweet(ShowTweetRequest)returns(ShowTweetResponse){};
+    rpc PostTweet(PostTweetRequest)returns(PostTweetResponse){};
+    rpc ShowTweet(ShowTweetRequest)returns(ShowTweetResponse){};
     rpc PostComment(PostCommentRequest)returns(PostCommentResponse){};
 }
