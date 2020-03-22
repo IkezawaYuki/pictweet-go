@@ -75,10 +75,18 @@ func (s *SqlHandler) FindUserByID(id uint) (*model.User, error) {
 	return &result, db.Error
 }
 
-func (s *SqlHandler) AddTweet(tweet *model.Tweet) error {
-	return s.conn.Create(&tweet).Error
+func (s *SqlHandler) AddTweet(tweet *model.Tweet) (int, error) {
+	db := s.conn.Create(&tweet)
+	if db.Error != nil {
+		return -1, db.Error
+	}
+	return int(db.RowsAffected), nil
 }
 
-func (s *SqlHandler) AddComment(comment *model.Comment) error {
-	return s.conn.Create(&comment).Error
+func (s *SqlHandler) AddComment(comment *model.Comment) (int, error) {
+	db := s.conn.Create(&comment)
+	if db.Error != nil {
+		return -1, db.Error
+	}
+	return int(db.RowsAffected), nil
 }
