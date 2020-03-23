@@ -1,18 +1,26 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc/pictweetpb"
 	"github.com/IkezawaYuki/pictweet-go/src/registry"
 	"github.com/IkezawaYuki/pictweet-go/src/usecase"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
+)
+
+var (
+	endpoint = flag.String("endpoint", "localhost:50051", "endpoint of pictweetService")
 )
 
 func main() {
@@ -22,6 +30,7 @@ func main() {
 		logrus.Fatalf("Error loading .env")
 	}
 
+	log.Println("grpc server set up...")
 	port := os.Getenv("PORT")
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
@@ -31,19 +40,34 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to build container: %v", err)
 	}
-
-	s := grpc.NewServer()
-
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(rpc.Interceptor()),
+	)
 	pictweetpb.RegisterPictweetServiceServer(
 		s,
 		rpc.NewPictweetService(ctn.Resolve("tweet-usecase").(usecase.PictweetUsecase)),
 	)
-
 	reflection.Register(s)
-
 	go func() {
 		log.Printf("start grpc server port: %s", port)
 		if err := s.Serve(lis); err != nil {
+			log.Fatalf("failed to serve: %v", err)
+		}
+	}()
+
+	log.Println("reverse proxy server set up...")
+	ctx, cancel := context.WithCancel(context.Background())
+	mux := runtime.NewServeMux()
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+
+	err = pictweetpb.RegisterPictweetServiceHandlerFromEndpoint(ctx, mux, *endpoint, opts)
+	if err != nil {
+		log.Fatalf("failed to register serve: %v", err)
+	}
+	reversePort := os.Getenv("REVERSE_PROXY_PORT")
+	go func() {
+		log.Printf("start reverse proxy server port: %s", reversePort)
+		if err := http.ListenAndServe(":8080", mux); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}
 	}()
@@ -54,4 +78,5 @@ func main() {
 	log.Println("stopping grpc server...")
 	s.GracefulStop()
 	ctn.Clean()
+	cancel()
 }

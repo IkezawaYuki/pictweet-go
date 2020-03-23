@@ -53,7 +53,7 @@ func TestSqlHandler_AddTweet(t *testing.T) {
 		Text:      "あいうえお",
 		CreatedAt: time.Now(),
 	}
-	err := handler.AddTweet(tweet)
+	_, err := handler.CreateTweet(tweet)
 	if err != nil {
 		t.Error(err)
 	}

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package pictweet;
 
+import "google/api/annotations.proto";
+
 option go_package="pictweetpb";
 
 message Tweet{
@@ -17,8 +19,9 @@ message Tweet{
 message Comment{
     int32 id = 1;
     string text = 2;
-    int32 user_id = 3;
-    string created_at = 4;
+    string author = 3;
+    string avatar_url = 4;
+    string created_at = 5;
 }
 
 message ListTweetsRequest{
@@ -26,7 +29,7 @@ message ListTweetsRequest{
 }
 
 message ListTweetsResponse{
-    repeated Tweet tweet = 1;
+    repeated Tweet tweets = 1;
 }
 
 message PostTweetRequest{
@@ -78,10 +81,37 @@ message RegsiterUserResponse{
 }
 
 service PictweetService{
-    rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){};
-    rpc PostTweet(PostTweetRequest)returns(PostTweetResponse){};
-    rpc ShowTweet(ShowTweetRequest)returns(ShowTweetResponse){};
-    rpc PostComment(PostCommentRequest)returns(PostCommentResponse){};
-    rpc DeleteTweet(DeleteTweetRequest)returns(DeleteTweetResponse){};
-    rpc RegisterUser(RegisterUserRequest)returns(RegsiterUserResponse){};
+    rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){
+        option (google.api.http) = {
+            get: "/api/tweets"
+        };
+    };
+    rpc PostTweet(PostTweetRequest)returns(PostTweetResponse){
+        option (google.api.http) = {
+            post: "/api/tweet"
+            body: "*"
+        };
+    };
+    rpc ShowTweet(ShowTweetRequest)returns(ShowTweetResponse){
+        option (google.api.http) = {
+            get: "/api/tweet/{tweet_id}"
+        };
+    };
+    rpc PostComment(PostCommentRequest)returns(PostCommentResponse){
+        option (google.api.http) = {
+            post: "/api/comment/post"
+            body: "*"
+        };
+    };
+    rpc DeleteTweet(DeleteTweetRequest)returns(DeleteTweetResponse){
+        option (google.api.http) = {
+            delete: "/api/tweet/{tweet_id}"
+        };
+    };
+    rpc RegisterUser(RegisterUserRequest)returns(RegsiterUserResponse){
+        option (google.api.http) = {
+            post: "/api/user"
+            body: "*"
+        };
+    };
 }

@@ -52,8 +52,7 @@ func (s *SqlHandler) FindTweetByIDWithComment(id uint) (*model.Tweet, error) {
 	if db.RecordNotFound() {
 		return nil, nil
 	}
-
-	s.conn.Preload("User").Find(&result.Comment)
+	s.conn.Where("tweet_id = ?", id).Preload("User").Find(&result.Comment)
 	return &result, db.Error
 }
 
