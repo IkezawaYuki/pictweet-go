@@ -7,6 +7,7 @@ import (
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc/pictweetpb"
 	"github.com/IkezawaYuki/pictweet-go/src/registry"
 	"github.com/IkezawaYuki/pictweet-go/src/usecase"
+	"github.com/gorilla/handlers"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -58,6 +59,7 @@ func main() {
 	log.Println("reverse proxy server set up...")
 	ctx, cancel := context.WithCancel(context.Background())
 	mux := runtime.NewServeMux()
+	newMux := handlers.CORS()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	err = pictweetpb.RegisterPictweetServiceHandlerFromEndpoint(ctx, mux, *endpoint, opts)
