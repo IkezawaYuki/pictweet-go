@@ -10,4 +10,5 @@ type TweetRepository interface {
 	CreateComment(*model.Comment) (int, error)
 	DeleteTweet(uint) error
 	CreateUser(*model.User) (int, error)
+	FindFavoriteByEmail(string) (*model.Tweets, error)
 }

@@ -55,6 +55,6 @@ func (p *PictweetPresenter) ShowTweet(tweet *model.Tweet) (*pictweetpb.ShowTweet
 			AvatarUrl: tweet.User.Avatar,
 			CreatedAt: tweet.CreatedAt.Format("2006/01/02"),
 		},
-		Comment: commentRes,
+		Comments: commentRes,
 	}, nil
 }

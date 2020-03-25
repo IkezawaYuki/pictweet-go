@@ -8,6 +8,7 @@ type User struct {
 	Name      string
 	Email     string
 	Avatar    string
+	Favorites []Favorite
 	CreatedAt time.Time
 	UpdateAt  time.Time
 	DeleteAt  *time.Time `sql:"index"`

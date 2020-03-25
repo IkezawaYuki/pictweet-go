@@ -107,3 +107,7 @@ func (s *SqlHandler) CreateUser(user *model.User) (int, error) {
 	}
 	return int(user.ID), nil
 }
+
+func (s *SqlHandler) FindFavoriteByEmail(email string) (*model.Tweets, error) {
+	return nil, nil
+}

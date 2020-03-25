@@ -49,7 +49,7 @@ message ShowTweetRequest{
 
 message ShowTweetResponse{
     Tweet tweet = 1;
-    repeated Comment comment = 2;
+    repeated Comment comments = 2;
 }
 
 message PostCommentRequest{

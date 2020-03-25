@@ -16,6 +16,7 @@ type PictweetUsecase interface {
 	ShowTweet(uint) (*model.Tweet, error)
 	DeleteTweet(uint) error
 	RegisterUser(*model.User) (int, error)
+	GetFavorite(string) (*model.Tweets, error)
 }
 
 func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
@@ -69,4 +70,8 @@ func (p *pictweetUsecase) RegisterUser(user *model.User) (int, error) {
 		return -1, err
 	}
 	return id, nil
+}
+
+func (p *pictweetUsecase) GetFavorite(email string) (*model.Tweets, error) {
+
 }

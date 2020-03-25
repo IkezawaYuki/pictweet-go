@@ -59,7 +59,12 @@ func main() {
 	log.Println("reverse proxy server set up...")
 	ctx, cancel := context.WithCancel(context.Background())
 	mux := runtime.NewServeMux()
-	newMux := handlers.CORS()
+	newMux := handlers.CORS(
+		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "DELETE"}),
+		handlers.AllowedOrigins([]string{"http://localhost:3000"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "application/x-www-form-urlencoded"}),
+	)(mux)
+
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	err = pictweetpb.RegisterPictweetServiceHandlerFromEndpoint(ctx, mux, *endpoint, opts)
@@ -69,7 +74,7 @@ func main() {
 	reversePort := os.Getenv("REVERSE_PROXY_PORT")
 	go func() {
 		log.Printf("start reverse proxy server port: %s", reversePort)
-		if err := http.ListenAndServe(":8080", mux); err != nil {
+		if err := http.ListenAndServe(":8080", newMux); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}
 	}()
