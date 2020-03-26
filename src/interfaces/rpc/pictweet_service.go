@@ -125,3 +125,16 @@ func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.Regi
 		Result: fmt.Sprintf("success user_id: %d", id),
 	}, nil
 }
+
+func (p *pictweetService) FetchTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest) (*pictweetpb.FetchTweetsResponse, error) {
+	fmt.Println("fetch tweets")
+	fmt.Println(req.GetEmail())
+	tweets, err := p.pictweetUsecase.GetFavorite(req.GetEmail())
+	if err != nil {
+		return nil, status.Errorf(
+			codes.Internal,
+			fmt.Sprintf("Internal error: %v", err),
+		)
+	}
+	return p.pictweetPresenter.ListFavorite(tweets)
+}

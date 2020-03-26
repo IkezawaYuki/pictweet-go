@@ -42,26 +42,15 @@ func (p *pictweetUsecase) PostComment(comment *model.Comment) (int, error) {
 }
 
 func (p *pictweetUsecase) ListTweets() (*model.Tweets, error) {
-	tweets, err := p.tweetRepository.FindTweetAll()
-	if err != nil {
-		return nil, err
-	}
-	return tweets, err
+	return p.tweetRepository.FindTweetAll()
 }
 
 func (p *pictweetUsecase) ShowTweet(id uint) (*model.Tweet, error) {
-	tweet, err := p.tweetRepository.FindTweetByIDWithComment(id)
-	if err != nil {
-		return nil, err
-	}
-	return tweet, nil
+	return p.tweetRepository.FindTweetByIDWithComment(id)
 }
 
 func (p *pictweetUsecase) DeleteTweet(id uint) error {
-	if err := p.tweetRepository.DeleteTweet(id); err != nil {
-		return err
-	}
-	return nil
+	return p.tweetRepository.DeleteTweet(id)
 }
 
 func (p *pictweetUsecase) RegisterUser(user *model.User) (int, error) {
@@ -73,5 +62,5 @@ func (p *pictweetUsecase) RegisterUser(user *model.User) (int, error) {
 }
 
 func (p *pictweetUsecase) GetFavorite(email string) (*model.Tweets, error) {
-
+	return p.tweetRepository.FindFavoriteByEmail(email)
 }

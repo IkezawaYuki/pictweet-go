@@ -80,6 +80,14 @@ message RegsiterUserResponse{
     string result = 1;
 }
 
+message FetchTweetsRequest{
+    string email = 1;
+}
+
+message FetchTweetsResponse{
+    repeated Tweet tweets = 1;
+}
+
 service PictweetService{
     rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){
         option (google.api.http) = {
@@ -112,6 +120,11 @@ service PictweetService{
         option (google.api.http) = {
             post: "/api/user"
             body: "*"
+        };
+    };
+    rpc FetchTweets(FetchTweetsRequest)returns(FetchTweetsResponse){
+        option (google.api.http) = {
+            get: "/api/favorites"
         };
     };
 }

@@ -58,3 +58,25 @@ func (p *PictweetPresenter) ShowTweet(tweet *model.Tweet) (*pictweetpb.ShowTweet
 		Comments: commentRes,
 	}, nil
 }
+
+func (p *PictweetPresenter) ListFavorite(tweets *model.Tweets) (*pictweetpb.FetchTweetsResponse, error) {
+	if len(*tweets) == 0 {
+		return &pictweetpb.FetchTweetsResponse{}, nil
+	}
+
+	var res []*pictweetpb.Tweet
+	for _, t := range *tweets {
+		res = append(res, &pictweetpb.Tweet{
+			Id:        int32(t.ID),
+			Title:     t.Title,
+			Content:   t.Text,
+			ImageUrl:  t.Image,
+			Author:    t.User.Name,
+			AvatarUrl: t.User.Avatar,
+			CreatedAt: t.CreatedAt.Format("2006/01/02"),
+		})
+	}
+	return &pictweetpb.FetchTweetsResponse{
+		Tweets: res,
+	}, nil
+}
