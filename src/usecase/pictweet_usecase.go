@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/model"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/repository"
 )
@@ -26,6 +27,7 @@ func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
 }
 
 func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (int, error) {
+	fmt.Println(tweet)
 	id, err := p.tweetRepository.CreateTweet(tweet)
 	if err != nil {
 		return -1, err
