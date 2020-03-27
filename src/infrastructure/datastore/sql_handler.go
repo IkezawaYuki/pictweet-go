@@ -109,5 +109,14 @@ func (s *SqlHandler) CreateUser(user *model.User) (int, error) {
 }
 
 func (s *SqlHandler) FindFavoriteByEmail(email string) (*model.Tweets, error) {
+	type Result struct {
+	}
+	s.conn.Exec(`select t.id, t.title, t.text, t.image, u.name, u.avatar
+	from users as u
+	left join favorites as f
+	on u.id = f.user_id
+	left join tweets as t
+	on f.tweet_id = t.id
+	where u.email = 'y.ikezawa93@gmail.com';`)
 	return nil, nil
 }

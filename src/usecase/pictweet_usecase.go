@@ -28,19 +28,11 @@ func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
 
 func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (int, error) {
 	fmt.Println(tweet)
-	id, err := p.tweetRepository.CreateTweet(tweet)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+	return p.tweetRepository.CreateTweet(tweet)
 }
 
 func (p *pictweetUsecase) PostComment(comment *model.Comment) (int, error) {
-	id, err := p.tweetRepository.CreateComment(comment)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+	return p.tweetRepository.CreateComment(comment)
 }
 
 func (p *pictweetUsecase) ListTweets() (*model.Tweets, error) {
@@ -56,11 +48,7 @@ func (p *pictweetUsecase) DeleteTweet(id uint) error {
 }
 
 func (p *pictweetUsecase) RegisterUser(user *model.User) (int, error) {
-	id, err := p.tweetRepository.CreateUser(user)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+	return p.tweetRepository.CreateUser(user)
 }
 
 func (p *pictweetUsecase) GetFavorite(email string) (*model.Tweets, error) {
