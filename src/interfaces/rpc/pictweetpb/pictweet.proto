@@ -40,7 +40,7 @@ message PostTweetRequest{
 }
 
 message PostTweetResponse{
-    string result = 1;
+    Tweet tweets = 1;
 }
 
 message ShowTweetRequest{

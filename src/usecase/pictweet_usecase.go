@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/model"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/repository"
 )
@@ -11,7 +10,7 @@ type pictweetUsecase struct {
 }
 
 type PictweetUsecase interface {
-	PostTweet(*model.Tweet) (int, error)
+	PostTweet(*model.Tweet) (*model.Tweet, error)
 	PostComment(*model.Comment) (int, error)
 	ListTweets() (*model.Tweets, error)
 	ShowTweet(uint) (*model.Tweet, error)
@@ -26,8 +25,7 @@ func NewPictweetUsecase(tweetRepo repository.TweetRepository) PictweetUsecase {
 	}
 }
 
-func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (int, error) {
-	fmt.Println(tweet)
+func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (*model.Tweet, error) {
 	return p.tweetRepository.CreateTweet(tweet)
 }
 

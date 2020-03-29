@@ -62,7 +62,7 @@ func main() {
 	newMux := handlers.CORS(
 		handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "DELETE"}),
 		handlers.AllowedOrigins([]string{"http://localhost:3000"}),
-		handlers.AllowedHeaders([]string{"Content-Type", "application/x-www-form-urlencoded"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "application/json"}),
 	)(mux)
 
 	opts := []grpc.DialOption{grpc.WithInsecure()}

@@ -49,7 +49,7 @@ func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTw
 
 func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest) (*pictweetpb.PostTweetResponse, error) {
 	fmt.Println(req.GetContent())
-	id, err := p.pictweetUsecase.PostTweet(&model.Tweet{
+	tweet, err := p.pictweetUsecase.PostTweet(&model.Tweet{
 		UserID:    uint(req.GetUserId()),
 		Image:     req.GetImageUrl(),
 		Title:     req.GetTitle(),
@@ -63,7 +63,7 @@ func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTwe
 		)
 	}
 	return &pictweetpb.PostTweetResponse{
-		Result: fmt.Sprintf("success tweet_id: %d", id),
+		Tweet: &tweet,
 	}, nil
 }
 

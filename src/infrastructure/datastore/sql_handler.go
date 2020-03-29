@@ -74,12 +74,14 @@ func (s *SqlHandler) FindUserByID(id uint) (*model.User, error) {
 	return &result, db.Error
 }
 
-func (s *SqlHandler) CreateTweet(tweet *model.Tweet) (int, error) {
+func (s *SqlHandler) CreateTweet(tweet *model.Tweet) (*model.Tweet, error) {
 	db := s.conn.Create(&tweet)
 	if db.Error != nil {
-		return -1, db.Error
+		return nil, db.Error
 	}
-	return int(tweet.ID), nil
+	potedTweet := model.Tweet{}
+	s.conn.Find(&potedTweet, "id = ?", tweet.ID)
+	return &potedTweet, nil
 }
 
 func (s *SqlHandler) CreateComment(comment *model.Comment) (int, error) {
@@ -109,14 +111,23 @@ func (s *SqlHandler) CreateUser(user *model.User) (int, error) {
 }
 
 func (s *SqlHandler) FindFavoriteByEmail(email string) (*model.Tweets, error) {
-	type Result struct {
+	rows, err := s.conn.Raw(`SELECT t.id, t.title, t.text, t.image, u.name, u.avatar
+	FROM users AS u
+	LEFT JOIN favorites AS f
+	ON u.id = f.user_id
+	LEFT JOIN tweets AS t
+	ON f.tweet_id = t.id
+	WHERE u.email = ?`, email).Rows()
+	defer rows.Close()
+	if err != nil {
+		return nil, err
 	}
-	s.conn.Exec(`select t.id, t.title, t.text, t.image, u.name, u.avatar
-	from users as u
-	left join favorites as f
-	on u.id = f.user_id
-	left join tweets as t
-	on f.tweet_id = t.id
-	where u.email = 'y.ikezawa93@gmail.com';`)
-	return nil, nil
+	tweets := model.Tweets{}
+	for rows.Next() {
+		tweet := model.Tweet{}
+		rows.Scan(&tweet.ID, &tweet.Title, &tweet.Text, &tweet.Image, &tweet.User.Name, &tweet.User.Avatar)
+		tweets = append(tweets, tweet)
+	}
+
+	return &tweets, nil
 }
