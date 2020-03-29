@@ -40,7 +40,7 @@ message PostTweetRequest{
 }
 
 message PostTweetResponse{
-    Tweet tweets = 1;
+    Tweet tweet = 1;
 }
 
 message ShowTweetRequest{
@@ -59,7 +59,7 @@ message PostCommentRequest{
 }
 
 message PostCommentResponse{
-    string result = 1;
+    Comment comment = 1;
 }
 
 message DeleteTweetRequest{
@@ -107,7 +107,7 @@ service PictweetService{
     };
     rpc PostComment(PostCommentRequest)returns(PostCommentResponse){
         option (google.api.http) = {
-            post: "/api/comment/post"
+            post: "/api/comment"
             body: "*"
         };
     };

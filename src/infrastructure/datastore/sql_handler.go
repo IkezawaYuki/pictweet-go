@@ -79,17 +79,19 @@ func (s *SqlHandler) CreateTweet(tweet *model.Tweet) (*model.Tweet, error) {
 	if db.Error != nil {
 		return nil, db.Error
 	}
-	potedTweet := model.Tweet{}
-	s.conn.Find(&potedTweet, "id = ?", tweet.ID)
-	return &potedTweet, nil
+	postedTweet := model.Tweet{}
+	s.conn.Preload("User").Find(&postedTweet, "id = ?", tweet.ID)
+	return &postedTweet, nil
 }
 
-func (s *SqlHandler) CreateComment(comment *model.Comment) (int, error) {
+func (s *SqlHandler) CreateComment(comment *model.Comment) (*model.Comment, error) {
 	db := s.conn.Create(&comment)
 	if db.Error != nil {
-		return -1, db.Error
+		return nil, db.Error
 	}
-	return int(comment.ID), nil
+	postedComment := model.Comment{}
+	s.conn.Preload("User").Find(&postedComment, "id = ?", comment.ID)
+	return &postedComment, nil
 }
 
 func (s *SqlHandler) DeleteTweet(id uint) error {

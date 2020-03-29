@@ -48,7 +48,6 @@ func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTw
 }
 
 func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest) (*pictweetpb.PostTweetResponse, error) {
-	fmt.Println(req.GetContent())
 	tweet, err := p.pictweetUsecase.PostTweet(&model.Tweet{
 		UserID:    uint(req.GetUserId()),
 		Image:     req.GetImageUrl(),
@@ -62,9 +61,7 @@ func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTwe
 			fmt.Sprintf("internal error: %v", err),
 		)
 	}
-	return &pictweetpb.PostTweetResponse{
-		Tweet: &tweet,
-	}, nil
+	return p.pictweetPresenter.ReturnPostedTweet(tweet)
 }
 
 func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTweetRequest) (*pictweetpb.ShowTweetResponse, error) {
@@ -79,7 +76,7 @@ func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTwe
 }
 
 func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostCommentRequest) (*pictweetpb.PostCommentResponse, error) {
-	id, err := p.pictweetUsecase.PostComment(&model.Comment{
+	comment, err := p.pictweetUsecase.PostComment(&model.Comment{
 		UserID:    uint(req.GetUserId()),
 		TweetID:   uint(req.GetTweetId()),
 		Text:      req.GetText(),
@@ -92,7 +89,13 @@ func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostC
 		)
 	}
 	return &pictweetpb.PostCommentResponse{
-		Result: fmt.Sprintf("success comment_id: %d", id),
+		Comment: &pictweetpb.Comment{
+			Id:        int32(comment.ID),
+			Text:      comment.Text,
+			Author:    comment.User.Name,
+			AvatarUrl: comment.User.Avatar,
+			CreatedAt: comment.CreatedAt.Format("2006/01/02"),
+		},
 	}, nil
 }
 

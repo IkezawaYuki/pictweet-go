@@ -7,7 +7,7 @@ type TweetRepository interface {
 	FindTweetAll() (*model.Tweets, error)
 	FindUserByID(uint) (*model.User, error)
 	CreateTweet(*model.Tweet) (*model.Tweet, error)
-	CreateComment(*model.Comment) (int, error)
+	CreateComment(*model.Comment) (*model.Comment, error)
 	DeleteTweet(uint) error
 	CreateUser(*model.User) (int, error)
 	FindFavoriteByEmail(string) (*model.Tweets, error)

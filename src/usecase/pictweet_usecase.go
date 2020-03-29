@@ -11,7 +11,7 @@ type pictweetUsecase struct {
 
 type PictweetUsecase interface {
 	PostTweet(*model.Tweet) (*model.Tweet, error)
-	PostComment(*model.Comment) (int, error)
+	PostComment(*model.Comment) (*model.Comment, error)
 	ListTweets() (*model.Tweets, error)
 	ShowTweet(uint) (*model.Tweet, error)
 	DeleteTweet(uint) error
@@ -29,7 +29,7 @@ func (p *pictweetUsecase) PostTweet(tweet *model.Tweet) (*model.Tweet, error) {
 	return p.tweetRepository.CreateTweet(tweet)
 }
 
-func (p *pictweetUsecase) PostComment(comment *model.Comment) (int, error) {
+func (p *pictweetUsecase) PostComment(comment *model.Comment) (*model.Comment, error) {
 	return p.tweetRepository.CreateComment(comment)
 }
 

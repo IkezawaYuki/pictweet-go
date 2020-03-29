@@ -628,7 +628,7 @@ var (
 
 	pattern_PictweetService_ShowTweet_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "tweet", "tweet_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_PictweetService_PostComment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "comment", "post"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_PictweetService_PostComment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "comment"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_PictweetService_DeleteTweet_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "tweet", "tweet_id"}, "", runtime.AssumeColonVerbOpt(true)))
 

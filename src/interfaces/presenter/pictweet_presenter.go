@@ -59,6 +59,20 @@ func (p *PictweetPresenter) ShowTweet(tweet *model.Tweet) (*pictweetpb.ShowTweet
 	}, nil
 }
 
+func (p *PictweetPresenter) ReturnPostedTweet(tweet *model.Tweet) (*pictweetpb.PostTweetResponse, error) {
+	return &pictweetpb.PostTweetResponse{
+		Tweet: &pictweetpb.Tweet{
+			Id:        int32(tweet.ID),
+			Title:     tweet.Title,
+			Content:   tweet.Text,
+			ImageUrl:  tweet.Image,
+			Author:    tweet.User.Name,
+			AvatarUrl: tweet.User.Avatar,
+			CreatedAt: tweet.CreatedAt.Format("2006/01/02"),
+		},
+	}, nil
+}
+
 func (p *PictweetPresenter) ListFavorite(tweets *model.Tweets) (*pictweetpb.FetchTweetsResponse, error) {
 	if len(*tweets) == 0 {
 		return &pictweetpb.FetchTweetsResponse{}, nil
