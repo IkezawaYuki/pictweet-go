@@ -7,7 +7,6 @@ import (
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/presenter"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/rpc/pictweetpb"
 	"github.com/IkezawaYuki/pictweet-go/src/usecase"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"time"
@@ -22,17 +21,6 @@ func NewPictweetService(u usecase.PictweetUsecase) pictweetpb.PictweetServiceSer
 	return &pictweetService{
 		pictweetUsecase:   u,
 		pictweetPresenter: presenter.PictweetPresenter{},
-	}
-}
-
-func Interceptor() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-		fmt.Println("interceptor")
-		resp, err := handler(ctx, req)
-		if err != nil {
-			return nil, err
-		}
-		return resp, err
 	}
 }
 
