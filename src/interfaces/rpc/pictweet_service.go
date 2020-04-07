@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"firebase.google.com/go/auth"
 	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/model"
 	"github.com/IkezawaYuki/pictweet-go/src/interfaces/presenter"
@@ -25,6 +26,7 @@ func NewPictweetService(u usecase.PictweetUsecase) pictweetpb.PictweetServiceSer
 }
 
 func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTweetsRequest) (*pictweetpb.ListTweetsResponse, error) {
+
 	tweet, err := p.pictweetUsecase.ListTweets()
 	if err != nil {
 		return nil, status.Errorf(
@@ -36,6 +38,12 @@ func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTw
 }
 
 func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest) (*pictweetpb.PostTweetResponse, error) {
+
+	authClient, ok := ctx.Value("firebase").(*auth.Client)
+	if !ok {
+		fmt.Println("!ok")
+	}
+	fmt.Println(authClient)
 	tweet, err := p.pictweetUsecase.PostTweet(&model.Tweet{
 		UserID:    uint(req.GetUserId()),
 		Image:     req.GetImageUrl(),

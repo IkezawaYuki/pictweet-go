@@ -3,7 +3,7 @@ module github.com/IkezawaYuki/pictweet-go
 go 1.14
 
 require (
-	firebase.google.com/go v3.12.0+incompatible // indirect
+	firebase.google.com/go v3.12.0+incompatible
 	github.com/golang/protobuf v1.3.5
 	github.com/gorilla/handlers v1.4.2
 	github.com/grpc-ecosystem/grpc-gateway v1.14.3
