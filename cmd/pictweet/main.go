@@ -44,6 +44,7 @@ func main() {
 	s := grpc.NewServer(
 		grpc.UnaryInterceptor(rpc.Interceptor()),
 	)
+
 	pictweetpb.RegisterPictweetServiceServer(
 		s,
 		rpc.NewPictweetService(ctn.Resolve("tweet-usecase").(usecase.PictweetUsecase)),
