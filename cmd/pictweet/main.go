@@ -8,6 +8,8 @@ import (
 	"github.com/IkezawaYuki/pictweet-go/src/registry"
 	"github.com/IkezawaYuki/pictweet-go/src/usecase"
 	"github.com/gorilla/handlers"
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -42,7 +44,12 @@ func main() {
 		log.Fatalf("failed to build container: %v", err)
 	}
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(rpc.Interceptor()),
+		grpc.UnaryInterceptor(
+			grpc_middleware.ChainUnaryServer(
+				grpc_auth.UnaryServerInterceptor(rpc.AuthFunc),
+				rpc.AuthorizationUnaryServerInterceptor(),
+			),
+		),
 	)
 
 	pictweetpb.RegisterPictweetServiceServer(
