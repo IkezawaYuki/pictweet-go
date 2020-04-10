@@ -126,7 +126,7 @@ func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.Regi
 	}, nil
 }
 
-func (p *pictweetService) FetchTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest) (*pictweetpb.FetchTweetsResponse, error) {
+func (p *pictweetService) FavoriteTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest) (*pictweetpb.FetchTweetsResponse, error) {
 	fmt.Println("fetch tweets")
 	fmt.Println(req.GetEmail())
 	tweets, err := p.pictweetUsecase.GetFavorite(req.GetEmail())

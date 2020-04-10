@@ -260,34 +260,34 @@ func local_request_PictweetService_RegisterUser_0(ctx context.Context, marshaler
 }
 
 var (
-	filter_PictweetService_FetchTweets_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_PictweetService_FavoriteTweets_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_PictweetService_FetchTweets_0(ctx context.Context, marshaler runtime.Marshaler, client PictweetServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_PictweetService_FavoriteTweets_0(ctx context.Context, marshaler runtime.Marshaler, client PictweetServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq FetchTweetsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_PictweetService_FetchTweets_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_PictweetService_FavoriteTweets_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.FetchTweets(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.FavoriteTweets(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_PictweetService_FetchTweets_0(ctx context.Context, marshaler runtime.Marshaler, server PictweetServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_PictweetService_FavoriteTweets_0(ctx context.Context, marshaler runtime.Marshaler, server PictweetServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq FetchTweetsRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_PictweetService_FetchTweets_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_PictweetService_FavoriteTweets_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.FetchTweets(ctx, &protoReq)
+	msg, err := server.FavoriteTweets(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -417,7 +417,7 @@ func RegisterPictweetServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 
 	})
 
-	mux.Handle("GET", pattern_PictweetService_FetchTweets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_PictweetService_FavoriteTweets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -426,14 +426,14 @@ func RegisterPictweetServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_PictweetService_FetchTweets_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_PictweetService_FavoriteTweets_0(rctx, inboundMarshaler, server, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_PictweetService_FetchTweets_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_PictweetService_FavoriteTweets_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -598,7 +598,7 @@ func RegisterPictweetServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 
 	})
 
-	mux.Handle("GET", pattern_PictweetService_FetchTweets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_PictweetService_FavoriteTweets_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -607,14 +607,14 @@ func RegisterPictweetServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_PictweetService_FetchTweets_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_PictweetService_FavoriteTweets_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_PictweetService_FetchTweets_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_PictweetService_FavoriteTweets_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -634,7 +634,7 @@ var (
 
 	pattern_PictweetService_RegisterUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "user"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_PictweetService_FetchTweets_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "favorites"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_PictweetService_FavoriteTweets_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api", "favorites"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
@@ -650,5 +650,5 @@ var (
 
 	forward_PictweetService_RegisterUser_0 = runtime.ForwardResponseMessage
 
-	forward_PictweetService_FetchTweets_0 = runtime.ForwardResponseMessage
+	forward_PictweetService_FavoriteTweets_0 = runtime.ForwardResponseMessage
 )

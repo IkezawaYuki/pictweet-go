@@ -122,7 +122,7 @@ service PictweetService{
             body: "*"
         };
     };
-    rpc FetchTweets(FetchTweetsRequest)returns(FetchTweetsResponse){
+    rpc FavoriteTweets(FetchTweetsRequest)returns(FetchTweetsResponse){
         option (google.api.http) = {
             get: "/api/favorites"
         };
