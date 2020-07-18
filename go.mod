@@ -12,7 +12,6 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/sarulabs/di v2.0.0+incompatible
 	github.com/sirupsen/logrus v1.4.2
-	github.com/stretchr/testify v1.4.0 // indirect
 	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a // indirect
 	google.golang.org/api v0.20.0
 	google.golang.org/genproto v0.0.0-20200319113533-08878b785e9c

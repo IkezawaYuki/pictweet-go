@@ -10,6 +10,7 @@ import (
 	"github.com/IkezawaYuki/pictweet-go/src/usecase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"log"
 	"time"
 )
 
@@ -72,6 +73,7 @@ func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTwe
 }
 
 func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostCommentRequest) (*pictweetpb.PostCommentResponse, error) {
+	log.Println("PostComment is invoked")
 	comment, err := p.pictweetUsecase.PostComment(&model.Comment{
 		UserID:    uint(req.GetUserId()),
 		TweetID:   uint(req.GetTweetId()),
@@ -129,6 +131,7 @@ func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.Regi
 func (p *pictweetService) FavoriteTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest) (*pictweetpb.FetchTweetsResponse, error) {
 	tweets, err := p.pictweetUsecase.GetFavorite(req.GetEmail())
 	if err != nil {
+		fmt.Println(err)
 		return nil, status.Errorf(
 			codes.Internal,
 			fmt.Sprintf("Internal error: %v", err),
