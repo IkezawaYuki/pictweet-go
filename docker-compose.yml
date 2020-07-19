@@ -1,0 +1,30 @@
+version: "3"
+services:
+  pictweet-go:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - DB_USERNAME=$DB_USERNAME
+      - DB_HOST=$DB_HOST
+      - DB_PORT=$DB_PORT
+      - DB_DATABASE=$DB_DATABASE
+      - KEY_JSON_PATH=$KEY_JSON_PATH
+      - PROJECT_ID=$PROJECT_ID
+      - PORT=$PORT
+      - REVERSE_PROXY_PORT=$REVERSE_PROXY_PORT
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:5.7
+    restart: always
+    environment: # todo
+      MYSQL_DATABASE: pictweet
+      MYSQL_USER: root
+    ports:
+      - "3306:3306"
+
+
