@@ -1,12 +1,14 @@
 package datastore
 
 import (
+	"fmt"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/model"
 	"github.com/IkezawaYuki/pictweet-go/src/domain/repository"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"log"
 	"os"
 )
 
@@ -17,6 +19,7 @@ type SqlHandler struct {
 func NewSqlHandler() repository.TweetRepository {
 	conn, err := Connect()
 	if err != nil {
+		log.Println("error is occurred")
 		panic(err.Error)
 	}
 	sqlHandler := new(SqlHandler)
@@ -25,10 +28,12 @@ func NewSqlHandler() repository.TweetRepository {
 }
 
 func Connect() (db *gorm.DB, err error) {
+	fmt.Println("Connect")
 	err = godotenv.Load()
 	if err != nil {
 		logrus.Fatal("Error loading .env file")
 	}
+	fmt.Println(os.Getenv("DB_USERNAME"))
 
 	db, err = gorm.Open("mysql",
 		os.Getenv("DB_USERNAME")+":"+
