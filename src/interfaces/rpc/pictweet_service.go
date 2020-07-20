@@ -27,7 +27,6 @@ func NewPictweetService(u usecase.PictweetUsecase) pictweetpb.PictweetServiceSer
 }
 
 func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTweetsRequest) (*pictweetpb.ListTweetsResponse, error) {
-
 	tweet, err := p.pictweetUsecase.ListTweets()
 	if err != nil {
 		return nil, status.Errorf(
@@ -39,7 +38,6 @@ func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTw
 }
 
 func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest) (*pictweetpb.PostTweetResponse, error) {
-
 	authClient, ok := ctx.Value("firebase").(*auth.Client)
 	if !ok {
 		fmt.Println("!ok")

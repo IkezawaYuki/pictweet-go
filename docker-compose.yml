@@ -1,5 +1,11 @@
-version: "3"
+version: "3.7"
 services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: $DB_DATABASE
+      MYSQL_USER: $DB_USERNAME
+      TZ: 'Asia/Tokyo'
   pictweet-go:
     stdin_open: true
     build:
@@ -18,13 +24,4 @@ services:
       - REVERSE_PROXY_PORT=$REVERSE_PROXY_PORT
     ports:
       - "8080:8080"
-  db:
-    image: mysql:5.7
-    restart: always
-    environment: # todo
-      MYSQL_DATABASE: pictweet
-      MYSQL_USER: root
-    ports:
-      - "3306:3306"
-
 

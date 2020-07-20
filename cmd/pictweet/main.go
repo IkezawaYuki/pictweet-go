@@ -12,7 +12,6 @@ import (
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/joho/godotenv"
-	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -30,15 +29,17 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	err := godotenv.Load()
 	if err != nil {
-		logrus.Fatalf("Error loading .env")
+		log.Fatalf("Error loading .env")
 	}
 
 	log.Println("grpc server set up...")
+	log.Println("eee")
 	port := os.Getenv("PORT")
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("failed to listend: %v", err)
 	}
+	log.Println("aaa")
 	ctn, err := registry.NewContainer()
 	if err != nil {
 		log.Fatalf("failed to build container: %v", err)
