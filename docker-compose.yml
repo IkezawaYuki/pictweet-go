@@ -1,11 +1,23 @@
-version: "3.7"
+version: "3"
 services:
-  mysql:
+  db:
     image: mysql:latest
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - ./.env
     environment:
-      MYSQL_DATABASE: $DB_DATABASE
-      MYSQL_USER: $DB_USERNAME
-      TZ: 'Asia/Tokyo'
+      - MYSQL_DATABASE=$DB_DATABASE
+      - MYSQL_ROOT_PASSWORD=$DB_ROOT_PASSWORD
+      - MYSQL_USER=$DB_USERNAME
+      - MYSQL_PASSWORD=$DB_PASSWORD
+      - TZ=Asia/Tokyo
+    ports:
+      - "4306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
   pictweet-go:
     stdin_open: true
     build:
@@ -25,3 +37,5 @@ services:
     ports:
       - "8080:8080"
 
+volumes:
+  dbdata:
