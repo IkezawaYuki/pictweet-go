@@ -88,6 +88,14 @@ message FetchTweetsResponse{
     repeated Tweet tweets = 1;
 }
 
+message FetchUserRequest{
+
+}
+
+message FetchUserResponse{
+
+}
+
 service PictweetService{
     rpc ListTweets(ListTweetsRequest)returns(ListTweetsResponse){
         option (google.api.http) = {
@@ -126,6 +134,11 @@ service PictweetService{
         option (google.api.http) = {
             post: "/api/favorites"
             body: "*"
+        };
+    };
+    rpc FetchUser(FetchUserRequest)returns(FetchUserResponse){
+        option (google.api.http) = {
+            get: "/api/user"
         };
     };
 }
