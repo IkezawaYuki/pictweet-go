@@ -9,8 +9,11 @@ RUN apk update && \
     apk add git && \
     GOOS=linux GOARCH=amd64 go build cmd/pictweet/main.go
 
-FROM alpine:3.11
+ENV TZ Asia/Tokyo
+FROM alpine:latest
 WORKDIR /app
-COPY --from=0 /go/src/pictweet-go /app
+COPY --from=builder /go/src/pictweet-go /app
 
 CMD ["./main"]
+
+EXPOSE 8080
