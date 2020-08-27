@@ -26,7 +26,8 @@ func NewPictweetService(u usecase.PictweetUsecase) pictweetpb.PictweetServiceSer
 	}
 }
 
-func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTweetsRequest) (*pictweetpb.ListTweetsResponse, error) {
+func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTweetsRequest,
+) (*pictweetpb.ListTweetsResponse, error) {
 	tweet, err := p.pictweetUsecase.ListTweets()
 	if err != nil {
 		return nil, status.Errorf(
@@ -37,7 +38,8 @@ func (p *pictweetService) ListTweets(ctx context.Context, req *pictweetpb.ListTw
 	return p.pictweetPresenter.ListTweet(tweet)
 }
 
-func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest) (*pictweetpb.PostTweetResponse, error) {
+func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTweetRequest,
+) (*pictweetpb.PostTweetResponse, error) {
 	authClient, ok := ctx.Value("firebase").(*auth.Client)
 	if !ok {
 		fmt.Println("!ok")
@@ -59,7 +61,8 @@ func (p *pictweetService) PostTweet(ctx context.Context, req *pictweetpb.PostTwe
 	return p.pictweetPresenter.ReturnPostedTweet(tweet)
 }
 
-func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTweetRequest) (*pictweetpb.ShowTweetResponse, error) {
+func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTweetRequest,
+) (*pictweetpb.ShowTweetResponse, error) {
 	tweets, err := p.pictweetUsecase.ShowTweet(uint(req.GetTweetId()))
 	if err != nil {
 		return nil, status.Errorf(
@@ -70,7 +73,8 @@ func (p *pictweetService) ShowTweet(ctx context.Context, req *pictweetpb.ShowTwe
 	return p.pictweetPresenter.ShowTweet(tweets)
 }
 
-func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostCommentRequest) (*pictweetpb.PostCommentResponse, error) {
+func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostCommentRequest,
+) (*pictweetpb.PostCommentResponse, error) {
 	log.Println("PostComment is invoked")
 	comment, err := p.pictweetUsecase.PostComment(&model.Comment{
 		UserID:    uint(req.GetUserId()),
@@ -95,7 +99,8 @@ func (p *pictweetService) PostComment(ctx context.Context, req *pictweetpb.PostC
 	}, nil
 }
 
-func (p *pictweetService) DeleteTweet(ctx context.Context, req *pictweetpb.DeleteTweetRequest) (*pictweetpb.DeleteTweetResponse, error) {
+func (p *pictweetService) DeleteTweet(ctx context.Context, req *pictweetpb.DeleteTweetRequest,
+) (*pictweetpb.DeleteTweetResponse, error) {
 	err := p.pictweetUsecase.DeleteTweet(uint(req.GetTweetId()))
 	if err != nil {
 		return nil, status.Errorf(
@@ -108,7 +113,8 @@ func (p *pictweetService) DeleteTweet(ctx context.Context, req *pictweetpb.Delet
 	}, nil
 }
 
-func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.RegisterUserRequest) (*pictweetpb.RegsiterUserResponse, error) {
+func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.RegisterUserRequest,
+) (*pictweetpb.RegsiterUserResponse, error) {
 	id, err := p.pictweetUsecase.RegisterUser(&model.User{
 		Name:      req.GetName(),
 		Email:     req.GetEmail(),
@@ -126,7 +132,8 @@ func (p *pictweetService) RegisterUser(ctx context.Context, req *pictweetpb.Regi
 	}, nil
 }
 
-func (p *pictweetService) FavoriteTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest) (*pictweetpb.FetchTweetsResponse, error) {
+func (p *pictweetService) FavoriteTweets(ctx context.Context, req *pictweetpb.FetchTweetsRequest,
+) (*pictweetpb.FetchTweetsResponse, error) {
 	tweets, err := p.pictweetUsecase.GetFavorite(req.GetEmail())
 	if err != nil {
 		fmt.Println(err)
