@@ -39,7 +39,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listend: %v", err)
 	}
-	log.Println("aaa")
+
 	ctn, err := registry.NewContainer()
 	if err != nil {
 		log.Fatalf("failed to build container: %v", err)

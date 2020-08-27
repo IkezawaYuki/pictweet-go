@@ -25,7 +25,6 @@ func (p *PictweetPresenter) ListTweet(tweets *model.Tweets) (*pictweetpb.ListTwe
 			CreatedAt: t.CreatedAt.Format("2006/01/02"),
 		})
 	}
-	//err := fmt.Errorf("ERROR!!!")
 	return &pictweetpb.ListTweetsResponse{
 		Tweets: res,
 	}, nil
